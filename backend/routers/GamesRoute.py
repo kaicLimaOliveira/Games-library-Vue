@@ -4,11 +4,16 @@ from controllers.GamesController import Games
 
 pages = Blueprint('pages', __name__, url_prefix='/')
 
-@pages.route('')
-def index():
-    return Games().teste(request)
+@pages.route('games', methods=['GET', 'POST'])
+def new_game():
+    return Games().new_game(request)
 
-@pages.route('Games', methods=['GET'])
-def all_games():
-    return Games().index(request)
+@pages.route('updated_game', methods=['POST'])
+def update_game():
+    return Games().update_game(request)
+
+@pages.route('delete_game', methods=['POST'])
+def delete_game():
+    return Games().delete_game(request)
+
 

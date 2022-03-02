@@ -159,4 +159,15 @@ export default {
   border-radius: 10px;
   padding: 5px;
 }
+
+@media (min-width: 380px) and (max-width: 480px) {
+  html,
+  body {
+    font-size: 95%;
+  }
+  tr {
+    font-size: xx-small;
+    min-width: 380px;
+  }
+}
 </style>

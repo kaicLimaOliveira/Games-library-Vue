@@ -1,14 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Games from '@/components/layout/Games.vue'
 
+const routes = [
+  {
+    path: '/',
+    name: 'Games',
+    component: Games
+  },
+]
+
 export const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'Games',
-      component: Games
-    },
-  ]
+  history: createWebHistory(),
+  routes
 })
 

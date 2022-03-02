@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     updateGame() {
-      const path = "http://localhost:4000/updated_game/";
+      const path = "http://localhost:4000/updated_game";
       const getUpdateGame = async () => {
         const response = await axios
           .post(path, {
@@ -101,6 +101,23 @@ export default {
       };
 
       getUpdateGame();
+
+      const Toast = this.$swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", this.$swal.stopTimer);
+          toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: "Jogo atualizado com sucesso",
+      });
     },
   },
 };

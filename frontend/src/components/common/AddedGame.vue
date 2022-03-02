@@ -74,9 +74,6 @@
 <script>
 import axios from "axios";
 
-axios.defaults.headers.post["Content-Type"] =
-  "application/x-www-form-urlencoded";
-
 export default {
   name: "AddedGame",
   data: () => ({
@@ -97,22 +94,11 @@ export default {
         const path = "http://localhost:4000/games";
         const sendNewGame = async () => {
           const response = await axios
-            .post(
-              path,
-              {
-                title: this.addGameForm.title,
-                genre: this.addGameForm.genre,
-                played: this.addGameForm.played,
-              },
-              {
-                headers: {
-                  "Access-Control-Allow-Origin": "*",
-                  "Access-Control-Allow-Methods": "GET, POST",
-                  "Access-Control-Allow-Headers":
-                    "Origin, Content-Type, X-Auth-Token",
-                },
-              }
-            )
+            .post(path, {
+              title: this.addGameForm.title,
+              genre: this.addGameForm.genre,
+              played: this.addGameForm.played,
+            })
             .catch((e) => console.log(e));
 
           const res = await response;
@@ -140,7 +126,7 @@ export default {
 
         setTimeout(() => {
           this.$router.go();
-        }, 3200);
+        }, 3500);
       } else {
         const Toast = this.$swal.mixin({
           toast: true,

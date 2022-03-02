@@ -124,12 +124,12 @@ export default {
 
     editGame(game) {
       this.editForm = game;
+      console.log(this.editForm);
     },
 
     // Delete Game
     deleteGame(game) {
       try {
-        console.log(game._id);
         const path = "http://localhost:4000/delete_game";
         const deleteGameRequest = async () => {
           const response = await axios
@@ -139,6 +139,10 @@ export default {
             .catch((e) => console.log(e));
           const res = await response;
           console.log(res);
+
+          setTimeout(() => {
+            this.$router.go();
+          }, 1000);
         };
         deleteGameRequest();
       } catch (e) {

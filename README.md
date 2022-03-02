@@ -11,13 +11,14 @@
 
 
 <p align="center">
-  <img alt="Games" src=".github/img1.png" width="80%">
-  <img alt="Games" src=".github/img2.png" width="80%">
+  <img alt="Games" src=".github/img1.jpeg" width="80%">
+  <img alt="Games" src=".github/img2.jpeg" width="80%">
+  <img alt="Games" src=".github/img2.jpeg" width="80%">
 </p>
 
 ## 💻 Projeto
 
-Esse projeto consiste em um aprofundamento do estudo sobre os componentes do VueJs na integração com o back-end, trata-se de um app de registro de vagas no back, o filtro de vagas e da ação de favoritar as vagas. Também como complemento do projeto, temos uma aplicação desktop, servida com electron, basta executar o comando descritos no projeto para visualizar ambas versões.
+Esse projeto consiste em um CRUD com as tecnologias VueJs, Flask e MongoDB. Incluir, alterar e excluir as informações de uma lista de jogos. Aplicação com suporte a aplicação Desktop servida pelo electron.
 
 
 ## ✨ Tecnologias utilizadas
@@ -39,17 +40,20 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 **Clone o projeto**
 
 ```bash
-  git clone https://github.com/kaicLimaOliveira/Vagas-app.git
+  git clone https://github.com/kaicLimaOliveira/GamesLibrary.git
 ```
 
 **Siga os passo abaixo**
 
 ```bash
   #Utilize para instalar todas as dependências 
-  yarn i
+  Vue - yarn i  
+  Flask - pip install -r requirements.txt
+  
 
   #Para executar o projeto
-  yarn serve ou yarn electron:serve
+  Vue - yarn serve ou yarn electron:serve
+  Flask - python3 main.py
 
 ```
 ### Configuração cutomizada

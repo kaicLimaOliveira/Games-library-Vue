@@ -46,8 +46,8 @@
             </thead>
             <tbody>
               <tr v-for="(game, index) in games" :key="index">
-                <td>{{ game.title }}</td>
-                <td>{{ game.genre }}</td>
+                <td>{{ store.state.addGameForm.title }}</td>
+                <td>{{ store.state.addGameForm.genre }}</td>
                 <td>
                   <span v-if="game.played">Sim</span>
                   <span v-else>Não</span>
@@ -79,80 +79,33 @@
         </div>
       </div>
 
+      {{ title }}
+
       <!-- Modal -->
-      <AddedGame />
-      <UpdatedGame :editForm="editForm" />
+      <!-- <AddedGame />
+      <UpdatedGame :editForm="editForm" /> -->
       <!-- Modal -->
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import UpdatedGame from "@/components/common/UpdatedGame.vue";
-import AddedGame from "@/components/common/AddedGame.vue";
+import { gameStore } from "@/store/GameStore";
 
 export default {
-  data: () => ({
-    games: [],
-    editForm: {
-      id: "",
-      title: "",
-      genre: "",
-      played: false,
-    },
-  }),
-  components: {
-    AddedGame,
-    UpdatedGame,
-  },
+  name: "Games",
+  setup() {
+    const store = gameStore();
+    const games = store.$state.games;
+    const title = store.$state.editForm.title;
+    const genre = store.$state.editForm.genre;
 
-  methods: {
-    getGames() {
-      try {
-        const path = "http://localhost:4000/games";
-        const getAllGamesRequest = async () => {
-          const response = await axios.get(path).catch((e) => console.log(e));
-
-          this.games = await response.data;
-        };
-        getAllGamesRequest();
-      } catch (e) {
-        console.log(e);
-      }
-    },
-
-    editGame(game) {
-      this.editForm = game;
-      console.log(this.editForm);
-    },
-
-    // Delete Game
-    deleteGame(game) {
-      try {
-        const path = "http://localhost:4000/delete_game";
-        const deleteGameRequest = async () => {
-          const response = await axios
-            .post(path, {
-              id: game._id,
-            })
-            .catch((e) => console.log(e));
-          const res = await response;
-          console.log(res);
-
-          setTimeout(() => {
-            this.$router.go();
-          }, 1000);
-        };
-        deleteGameRequest();
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    // End
-  },
-  created() {
-    this.getGames();
+    console.log(games.length);
+    return {
+      title,
+      games,
+      genre,
+    };
   },
 };
 </script>

@@ -53,14 +53,14 @@
               type="button"
               class="btn btn-outline-info"
               data-bs-dismiss="modal"
-              @click="sendForm()"
+              @click="sendForm"
             >
               Enviar
             </button>
             <button
               type="reset"
               class="btn btn-outline-danger"
-              @click="resetForm()"
+              @click="resetForm"
             >
               Limpar
             </button>
@@ -72,89 +72,63 @@
 </template>
 
 <script>
-import axios from "axios";
+import { gameStoreUpdated } from "@/store/GameStore";
 
 export default {
   name: "AddedGame",
-  data: () => ({
-    addGameForm: {
-      title: "",
-      genre: "",
-      played: false,
-    },
-  }),
-  methods: {
-    resetForm() {
-      this.addGameForm.title = "";
-      this.addGameForm.genre = "";
-      this.addGameForm.played = "";
-    },
-    sendForm() {
-      if (this.validateForm()) {
-        const path = "http://localhost:4000/games";
-        const sendNewGame = async () => {
-          const response = await axios
-            .post(path, {
-              title: this.addGameForm.title,
-              genre: this.addGameForm.genre,
-              played: this.addGameForm.played,
-            })
-            .catch((e) => console.log(e));
 
-          const res = await response;
-        };
+  setup() {
+    const store = gameStoreUpdated();
+    const title = store.$state.addGameForm.title;
+    const genre = store.$state.addGameForm.genre;
+    const played = store.$state.addGameForm.played;
 
-        sendNewGame();
+    function resetForm() {
+      store.state.addGameForm.title = "";
+      store.state.addGameForm.genre = "";
+      store.state.addGameForm.played = "";
+    }
+
+    return {
+      title,
+      genre,
+      played,
+    };
+
+    function sendForm() {
+      const id = Date.now();
+      console.log(id);
+
+      let newGame = JSON.parse(localStorage.getItem("Games"));
+      if (!newGame) newGame = [];
+
+      newGame.push({
+        id: id,
+        title: this.addGameForm.title,
+        genre: this.addGameForm.genre,
+        played: this.addGameForm.played,
+      });
+
+      if (validateForm()) {
+        localStorage.setItem("Games", JSON.stringify(newGame));
+
         this.resetForm();
-
-        const Toast = this.$swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener("mouseenter", this.$swal.stopTimer);
-            toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-          },
-        });
-
-        Toast.fire({
-          icon: "success",
-          title: "Jogo incluído com sucesso",
-        });
 
         setTimeout(() => {
           this.$router.go();
         }, 3500);
       } else {
-        const Toast = this.$swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener("mouseenter", this.$swal.stopTimer);
-            toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-          },
-        });
-
-        Toast.fire({
-          icon: "error",
-          title:
-            "Oops...Tivemos um erro no registro do jogo... faltam informações requiridas!",
-        });
       }
-    },
-    validateForm() {
+    }
+
+    function validateForm() {
       let validate = true;
 
       if (!this.addGameForm.title) validate = false;
       if (!this.addGameForm.genre) validate = false;
 
       return validate;
-    },
+    }
   },
 };
 </script>

@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Games from '@/components/layout/Games.vue'
-import PageNotFound from '@/components/layout/PageNotFound.vue'
+import Games from '@/components/views/Games.vue'
+import PageNotFound from '@/components/views/PageNotFound.vue'
 
 const routes = [
   {

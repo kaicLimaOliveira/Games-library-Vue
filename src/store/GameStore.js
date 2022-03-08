@@ -1,14 +1,62 @@
 import { defineStore } from "pinia";
 
-export const gameStoreUpdated = defineStore('gamesUpdated', {
+// Home
+export const GameStore = defineStore('GameStore', {
   state: () => ({
-    addGameForm: {
+    games: [],
+    gameForm: {
+      id: "",
       title: "",
       genre: "",
       played: false,
     },
+    form: {
+      title: "",
+      genre: "",
+      played: false,
+    }
   }),
+
   actions: {
+    getGames() {
+      this.games = JSON.parse(localStorage.getItem("Games"));
+      if (!this.games) this.games = [];
+
+      return this.games
+    },
+
+    editGame(form) {
+      console.log(form.title, 'aqui');
+
+      this.form.title = form.title
+      this.form.genre = form.genre
+      this.form.played = form.played
+
+      console.log();
+
+      return form
+    },
+
+    updateGame() {
+
+    },
+
+    deleteGame(gameId) {
+      let gamesList = this.getGames()
+      
+      gamesList.forEach(e => {
+        if(e.id == gameId) {
+          const indexGame = gamesList.indexOf(e)   
+          gamesList.splice(indexGame, 1)
+
+          localStorage.setItem("Games", JSON.stringify(gamesList))
+        }  
+      })
+    },
+
+
+
+    // Sweet Alert Mixin
     mixinSuccess() {
       const Toast = Swal.mixin({
         toast: true,
@@ -47,35 +95,5 @@ export const gameStoreUpdated = defineStore('gamesUpdated', {
           "Oops...Tivemos um erro no registro do jogo... faltam informações requiridas!",
       });
     }
-  }
-})
-
-export const gameStore = defineStore('gameStore', {
-  state: () => ({
-    games: [],
-    editForm: {
-      id: "",
-      title: "",
-      genre: "",
-      played: false,
-    },
-  }),
-
-  actions: {
-    getGames() {
-      this.games = JSON.parse(localStorage.getItem("Games"));
-      if (!this.games) this.games = [];
-    },
-
-    editGame(game) {
-      this.editForm = game;
-      console.log(this.editForm);
-    },
-
-    // Delete Game
-    deleteGame(game) {
-      localStorage.removeItem("Games");
-    },
-    // End
   },
 })

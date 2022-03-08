@@ -46,8 +46,8 @@
             </thead>
             <tbody>
               <tr v-for="(game, index) in games" :key="index">
-                <td>{{ store.state.addGameForm.title }}</td>
-                <td>{{ store.state.addGameForm.genre }}</td>
+                <td>{{ game.title }}</td>
+                <td>{{ game.genre }}</td>
                 <td>
                   <span v-if="game.played">Sim</span>
                   <span v-else>Não</span>
@@ -79,35 +79,48 @@
         </div>
       </div>
 
-      {{ title }}
-
       <!-- Modal -->
-      <!-- <AddedGame />
-      <UpdatedGame :editForm="editForm" /> -->
+      <AddedGame />
+      <UpdatedGame :form="form" />
       <!-- Modal -->
     </div>
   </div>
 </template>
 
-<script>
-import { gameStore } from "@/store/GameStore";
+<script setup>
+import { GameStore } from "@/store/GameStore";
+import AddedGame from "@/components/common/AddedGame.vue"
+import UpdatedGame from "@/components/common/UpdatedGame.vue"
+import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
-export default {
-  name: "Games",
-  setup() {
-    const store = gameStore();
-    const games = store.$state.games;
-    const title = store.$state.editForm.title;
-    const genre = store.$state.editForm.genre;
+const store = GameStore();
+const router = useRouter()
 
-    console.log(games.length);
-    return {
-      title,
-      games,
-      genre,
-    };
-  },
-};
+
+const games = store.getGames()
+const form = ref({
+  title: '',
+  genre: '',
+  played: false
+})
+
+function editGame(game) {
+  form.title = game.title
+  form.genre = game.genre
+  form.played = game.played
+
+  return store.editGame(form)
+}
+
+function deleteGame(game) {
+  setTimeout(() => {
+    router.go();
+  }, 3000);
+
+  return store.deleteGame(game.id)
+}
+
 </script>
 
 <style scoped>

@@ -27,7 +27,7 @@
                 class="form-control"
                 type="text"
                 placeholder="Nome do Game"
-                v-model="editForm.title"
+                v-model="title"
               />
 
               <label class="form-label mt-3">Genêro:</label>
@@ -35,15 +35,15 @@
                 class="form-control"
                 type="text"
                 placeholder="Genêro do Game"
-                v-model="editForm.genre"
+                v-model="genre"
               />
 
               <label class="form-label mt-3">Jogou?</label>
               <input
                 class="form-check-input"
                 type="checkbox"
-                v-model="editForm.played"
                 id="flexCheckDefault"
+                v-model="played"
               />
             </div>
           </div>
@@ -73,54 +73,31 @@
   </form>
 </template>
 
-<script>
-import axios from "axios";
+<script setup>
+import { GameStore } from "@/store/GameStore";
+import { ref, onActivated, onBeforeMount } from 'vue'
 
-export default {
-  name: "AddedGame",
-  props: {
-    editForm: {
-      type: Object,
-      required: true,
-    },
-  },
-  methods: {
-    updateGame() {
-      const path = "http://localhost:4000/updated_game";
-      const getUpdateGame = async () => {
-        const response = await axios
-          .post(path, {
-            id: this.editForm._id,
-            title: this.editForm.title,
-            genre: this.editForm.genre,
-            played: this.editForm.played,
-          })
-          .catch((e) => console.log(e));
+const props = defineProps(['form'])
+const store = GameStore();
 
-        const res = await response;
-      };
+const game = store.$state.games
+const title = store.$state.gameForm.title;
+const genre = store.$state.gameForm.genre;
+const played = store.$state.gameForm.played;
 
-      getUpdateGame();
+const games = store.getGames()
+onBeforeMount(() => {
+  console.log(store.form)
+})
 
-      const Toast = this.$swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", this.$swal.stopTimer);
-          toast.addEventListener("mouseleave", this.$swal.resumeTimer);
-        },
-      });
+// store.editGame()
 
-      Toast.fire({
-        icon: "success",
-        title: "Jogo atualizado com sucesso",
-      });
-    },
-  },
-};
+
+function updateGame() {
+  console.log("Atualizado!");
+}
+
+
 </script>
 
 <style scoped>

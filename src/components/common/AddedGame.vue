@@ -27,7 +27,7 @@
                 class="form-control"
                 type="text"
                 placeholder="Nome do Game"
-                v-model="addGameForm.title"
+                v-model="form.title"
               />
 
               <label class="form-label mt-3">Genêro:</label>
@@ -35,14 +35,14 @@
                 class="form-control"
                 type="text"
                 placeholder="Genêro do Game"
-                v-model="addGameForm.genre"
+                v-model="form.genre"
               />
 
               <label class="form-label mt-3">Jogou?</label>
               <input
                 class="form-check-input"
                 type="checkbox"
-                v-model="addGameForm.played"
+                v-model="form.played"
                 id="flexCheckDefault"
               />
             </div>
@@ -71,66 +71,74 @@
   </form>
 </template>
 
-<script>
-import { gameStoreUpdated } from "@/store/GameStore";
+<script setup>
+import { GameStore } from "@/store/GameStore";
+import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
-export default {
-  name: "AddedGame",
+const store = GameStore();
+const router = useRouter();
 
-  setup() {
-    const store = gameStoreUpdated();
-    const title = store.$state.addGameForm.title;
-    const genre = store.$state.addGameForm.genre;
-    const played = store.$state.addGameForm.played;
+const form = ref({
+  title: '',
+  genre: '',
+  played: false
+})
 
-    function resetForm() {
-      store.state.addGameForm.title = "";
-      store.state.addGameForm.genre = "";
-      store.state.addGameForm.played = "";
-    }
+let title = store.$state.gameForm.title;
+let genre = store.$state.gameForm.genre;
+let played = store.$state.gameForm.played;
+let games = store.$state.games
 
-    return {
-      title,
-      genre,
-      played,
-    };
 
-    function sendForm() {
-      const id = Date.now();
-      console.log(id);
+function resetForm() {
+  form.value.title = "";
+  form.value.genre = "";
+  form.value.played = false;
+}
 
-      let newGame = JSON.parse(localStorage.getItem("Games"));
-      if (!newGame) newGame = [];
+function validateForm() {
+  let validate = true;
 
-      newGame.push({
-        id: id,
-        title: this.addGameForm.title,
-        genre: this.addGameForm.genre,
-        played: this.addGameForm.played,
-      });
+  if (!form.value.title) validate = false;
+  if (!form.value.genre) validate = false;
 
-      if (validateForm()) {
-        localStorage.setItem("Games", JSON.stringify(newGame));
+  return validate;
+}
 
-        this.resetForm();
+function sendForm() {
+  const id = Date.now();
 
-        setTimeout(() => {
-          this.$router.go();
-        }, 3500);
-      } else {
-      }
-    }
+  games = JSON.parse(localStorage.getItem("Games"));
+  if (!games) games = [];
 
-    function validateForm() {
-      let validate = true;
+  title = form.value.title
+  genre = form.value.genre
+  played = form.value.played
 
-      if (!this.addGameForm.title) validate = false;
-      if (!this.addGameForm.genre) validate = false;
+  games.push({
+    id: id,
+    title: title,
+    genre: genre,
+    played: played,
+  });
 
-      return validate;
-    }
-  },
-};
+  if(validateForm()) {
+
+    localStorage.setItem("Games", JSON.stringify(games));
+    resetForm()
+  
+    setTimeout(() => {
+      router.go();
+    }, 3000);
+  } else {
+    console.log('caiu');
+  }
+
+
+}
+
+
 </script>
 
 <style scoped>

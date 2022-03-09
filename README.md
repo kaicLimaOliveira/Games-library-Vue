@@ -18,7 +18,7 @@
 
 ## 💻 Projeto
 
-Esse projeto consiste em um CRUD com as tecnologias VueJs, Flask e MongoDB. Incluir, alterar e excluir as informações de uma lista de jogos. Aplicação com suporte a aplicação Desktop servida pelo electron.
+Esse projeto consiste em um CRUD com VueJs. Incluir, alterar e excluir as informações de uma lista de jogos. Aplicação com suporte a aplicação Desktop servida pelo electron.
 
 
 ## ✨ Tecnologias utilizadas
@@ -28,8 +28,6 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [VueJs](https://vuejs.org/)
 - [Boostrap](https://getbootstrap.com/)
 - [BootsWatch](https://www.bootstrapcdn.com/bootswatch/)
-- [Flask](https://flask.palletsprojects.com/en/2.0.x/)
-- [MongoDB](https://www.mongodb.com/)
 - [Electron](https://www.electronjs.org/)
 
 ## 🚀 Como executar
@@ -47,13 +45,10 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ```bash
   #Utilize para instalar todas as dependências 
-  Vue - yarn i  
-  Flask - pip install -r requirements.txt
-  
+  yarn i  
 
   #Para executar o projeto
-  Vue - yarn serve ou yarn electron:serve
-  Flask - python3 main.py
+  yarn serve ou yarn electron:serve
 
 ```
 ### Configuração cutomizada

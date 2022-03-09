@@ -73,23 +73,22 @@
 
 <script setup>
 import { GameStore } from "@/store/GameStore";
-import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { useRouter } from "vue-router";
+import { ref } from "vue";
 
 const store = GameStore();
 const router = useRouter();
 
 const form = ref({
-  title: '',
-  genre: '',
-  played: false
-})
+  title: "",
+  genre: "",
+  played: false,
+});
 
 let title = store.$state.gameForm.title;
 let genre = store.$state.gameForm.genre;
 let played = store.$state.gameForm.played;
-let games = store.$state.games
-
+let games = store.$state.games;
 
 function resetForm() {
   form.value.title = "";
@@ -112,9 +111,9 @@ function sendForm() {
   games = JSON.parse(localStorage.getItem("Games"));
   if (!games) games = [];
 
-  title = form.value.title
-  genre = form.value.genre
-  played = form.value.played
+  title = form.value.title;
+  genre = form.value.genre;
+  played = form.value.played;
 
   games.push({
     id: id,
@@ -123,22 +122,27 @@ function sendForm() {
     played: played,
   });
 
-  if(validateForm()) {
-
+  if (validateForm()) {
     localStorage.setItem("Games", JSON.stringify(games));
-    resetForm()
-  
+
     setTimeout(() => {
       router.go();
-    }, 3000);
+    }, 3500);
+
+    store.sweetAlert({
+      icon: "success",
+      title: "Jogo incluído com sucesso",
+    });
+
+    resetForm();
   } else {
-    console.log('caiu');
+    store.sweetAlert({
+      icon: "error",
+      title:
+        "Oops...Tivemos um erro no registro do jogo... faltam informações requiridas!",
+    });
   }
-
-
 }
-
-
 </script>
 
 <style scoped>

@@ -27,7 +27,7 @@
                 class="form-control"
                 type="text"
                 placeholder="Nome do Game"
-                v-model="title"
+                v-model="formGame.title"
               />
 
               <label class="form-label mt-3">Genêro:</label>
@@ -35,7 +35,7 @@
                 class="form-control"
                 type="text"
                 placeholder="Genêro do Game"
-                v-model="genre"
+                v-model="formGame.genre"
               />
 
               <label class="form-label mt-3">Jogou?</label>
@@ -43,7 +43,7 @@
                 class="form-check-input"
                 type="checkbox"
                 id="flexCheckDefault"
-                v-model="played"
+                v-model="formGame.played"
               />
             </div>
           </div>
@@ -53,7 +53,7 @@
               type="button"
               class="btn btn-outline-info"
               data-bs-dismiss="modal"
-              @click="updateGame()"
+              @click="updateGame(game)"
             >
               Atualizar
             </button>
@@ -75,29 +75,34 @@
 
 <script setup>
 import { GameStore } from "@/store/GameStore";
-import { ref, onActivated, onBeforeMount } from 'vue'
+import { useRouter } from "vue-router";
+import { onServerPrefetch, reactive } from "vue";
 
-const props = defineProps(['form'])
 const store = GameStore();
+const router = useRouter();
+onServerPrefetch(() => {
+  const getGames = reactive(store.getGamesInfo());
+  console.log(getGames);
+});
 
-const game = store.$state.games
-const title = store.$state.gameForm.title;
-const genre = store.$state.gameForm.genre;
-const played = store.$state.gameForm.played;
-
-const games = store.getGames()
-onBeforeMount(() => {
-  console.log(store.form)
-})
-
-// store.editGame()
-
+const formGame = {
+  title: "",
+  genre: "",
+  played: false,
+};
 
 function updateGame() {
-  console.log("Atualizado!");
+  setTimeout(() => {
+    router.go();
+  }, 3500);
+
+  store.updateGame(formGame);
+
+  store.sweetAlert({
+    icon: "success",
+    title: "Jogo Atualizado!",
+  });
 }
-
-
 </script>
 
 <style scoped>

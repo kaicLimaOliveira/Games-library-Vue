@@ -55,7 +55,7 @@
                 <td>
                   <div class="btn-group" role="group">
                     <button
-                      class="btn btn-info btn-sm"
+                      class="btn btn-info btn-sm action"
                       data-bs-toggle="modal"
                       data-bs-target="#exampleModal2"
                       @click="editGame(game)"
@@ -63,7 +63,7 @@
                       Atualizar
                     </button>
                     <button
-                      class="btn btn-danger btn-sm"
+                      class="btn btn-danger btn-sm action"
                       @click="deleteGame(game)"
                     >
                       Deletar
@@ -81,7 +81,7 @@
 
       <!-- Modal -->
       <AddedGame />
-      <UpdatedGame :form="form" />
+      <UpdatedGame />
       <!-- Modal -->
     </div>
   </div>
@@ -89,38 +89,31 @@
 
 <script setup>
 import { GameStore } from "@/store/GameStore";
-import AddedGame from "@/components/common/AddedGame.vue"
-import UpdatedGame from "@/components/common/UpdatedGame.vue"
-import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import AddedGame from "@/components/common/AddedGame.vue";
+import UpdatedGame from "@/components/common/UpdatedGame.vue";
+import { useRouter } from "vue-router";
 
 const store = GameStore();
-const router = useRouter()
+const router = useRouter();
 
-
-const games = store.getGames()
-const form = ref({
-  title: '',
-  genre: '',
-  played: false
-})
+const games = store.getGames();
 
 function editGame(game) {
-  form.title = game.title
-  form.genre = game.genre
-  form.played = game.played
-
-  return store.editGame(form)
+  store.editGame(game);
 }
 
 function deleteGame(game) {
   setTimeout(() => {
     router.go();
-  }, 3000);
+  }, 3500);
 
-  return store.deleteGame(game.id)
+  store.deleteGame(game.id);
+
+  store.sweetAlert({
+    icon: "success",
+    title: "Jogo excluído com sucesso",
+  });
 }
-
 </script>
 
 <style scoped>
@@ -130,14 +123,21 @@ function deleteGame(game) {
   padding: 5px;
 }
 
+tr {
+  text-align: center;
+}
+
 @media (min-width: 380px) and (max-width: 480px) {
   html,
   body {
     font-size: 95%;
   }
   tr {
-    font-size: xx-small;
+    font-size: small;
     min-width: 380px;
+  }
+  .action {
+    font-size: smaller;
   }
 }
 </style>

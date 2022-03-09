@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+const Swal = require('sweetalert2')
 
 // Home
 export const GameStore = defineStore('GameStore', {
@@ -25,39 +26,46 @@ export const GameStore = defineStore('GameStore', {
       return this.games
     },
 
-    editGame(form) {
-      console.log(form.title, 'aqui');
+    editGame(game) {
+      this.form = game
+      this.getGamesInfo(this.form)
 
-      this.form.title = form.title
-      this.form.genre = form.genre
-      this.form.played = form.played
+      return game
+    },
 
-      console.log();
-
+    getGamesInfo(form) {
+      console.log(form);
       return form
     },
 
-    updateGame() {
+    updateGame(formGame) {
+      let gamesList = this.getGames()
 
+      gamesList.forEach(e => {
+        if (e.id == this.form.id) {
+          const indexGame = gamesList.indexOf(e)
+          gamesList.splice(indexGame, 1, formGame)
+
+          localStorage.setItem("Games", JSON.stringify(gamesList))
+        }
+      })
     },
 
     deleteGame(gameId) {
       let gamesList = this.getGames()
-      
+
       gamesList.forEach(e => {
-        if(e.id == gameId) {
-          const indexGame = gamesList.indexOf(e)   
+        if (e.id == gameId) {
+          const indexGame = gamesList.indexOf(e)
           gamesList.splice(indexGame, 1)
 
           localStorage.setItem("Games", JSON.stringify(gamesList))
-        }  
+        }
       })
     },
-
-
 
     // Sweet Alert Mixin
-    mixinSuccess() {
+    sweetAlert(icon, title) {
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -70,30 +78,7 @@ export const GameStore = defineStore('GameStore', {
         },
       })
 
-      Toast.fire({
-        icon: "success",
-        title: "Jogo incluído com sucesso",
-      });
+      Toast.fire(icon, title);
     },
-
-    mixinError() {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", Swal.stopTimer);
-          toast.addEventListener("mouseleave", Swal.resumeTimer);
-        },
-      });
-
-      Toast.fire({
-        icon: "error",
-        title:
-          "Oops...Tivemos um erro no registro do jogo... faltam informações requiridas!",
-      });
-    }
   },
 })

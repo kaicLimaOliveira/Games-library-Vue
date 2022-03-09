@@ -105,7 +105,7 @@ function editGame(game) {
 function deleteGame(game) {
   setTimeout(() => {
     router.go();
-  }, 3500);
+  }, 3100);
 
   store.deleteGame(game.id);
 
@@ -130,14 +130,28 @@ tr {
 @media (min-width: 380px) and (max-width: 480px) {
   html,
   body {
-    font-size: 95%;
+    font-size: 90%;
   }
   tr {
     font-size: small;
     min-width: 380px;
   }
-  .action {
+  button {
     font-size: smaller;
+  }
+}
+
+@media (min-width: 330px) and (max-width: 379px) {
+  html,
+  body {
+    font-size: 80%;
+  }
+  tr,
+  thead {
+    font-size: xx-small;
+  }
+  button {
+    font-size: xx-small;
   }
 }
 </style>

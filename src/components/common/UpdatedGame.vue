@@ -76,12 +76,13 @@
 <script setup>
 import { GameStore } from "@/store/GameStore";
 import { useRouter } from "vue-router";
-import { onServerPrefetch, reactive } from "vue";
+import { onBeforeUpdate } from "vue";
 
 const store = GameStore();
 const router = useRouter();
-onServerPrefetch(() => {
-  const getGames = reactive(store.getGamesInfo());
+
+onBeforeUpdate(() => {
+  const getGames = store.getGamesInfo();
   console.log(getGames);
 });
 
@@ -94,7 +95,7 @@ const formGame = {
 function updateGame() {
   setTimeout(() => {
     router.go();
-  }, 3500);
+  }, 3100);
 
   store.updateGame(formGame);
 

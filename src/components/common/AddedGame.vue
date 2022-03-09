@@ -127,7 +127,7 @@ function sendForm() {
 
     setTimeout(() => {
       router.go();
-    }, 3500);
+    }, 3100);
 
     store.sweetAlert({
       icon: "success",

@@ -141,7 +141,7 @@ tr {
   }
 }
 
-@media (min-width: 330px) and (max-width: 379px) {
+@media (min-width: 315px) and (max-width: 379px) {
   html,
   body {
     font-size: 80%;

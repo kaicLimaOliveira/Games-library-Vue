@@ -35,44 +35,48 @@
           </button>
           <br />
           <br />
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">Titulo</th>
-                <th scope="col">Genêro</th>
-                <th scope="col">Jogou?</th>
-                <th scope="col">Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(game, index) in games" :key="index">
-                <td>{{ game.title }}</td>
-                <td>{{ game.genre }}</td>
-                <td>
-                  <span v-if="game.played">Sim</span>
-                  <span v-else>Não</span>
-                </td>
-                <td>
-                  <div class="btn-group" role="group">
-                    <button
-                      class="btn btn-info btn-sm action"
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModal2"
-                      @click="editGame(game)"
-                    >
-                      Atualizar
-                    </button>
-                    <button
-                      class="btn btn-danger btn-sm action"
-                      @click="deleteGame(game)"
-                    >
-                      Deletar
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+
+          <div class="table-responsive">
+
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Titulo</th>
+                  <th scope="col">Genêro</th>
+                  <th scope="col">Jogou?</th>
+                  <th scope="col">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(game, index) in games" :key="index">
+                  <td>{{ game.title }}</td>
+                  <td>{{ game.genre }}</td>
+                  <td>
+                    <span v-if="game.played">Sim</span>
+                    <span v-else>Não</span>
+                  </td>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <button
+                        class="btn btn-info btn-sm action"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal2"
+                        @click="editGame(game)"
+                      >
+                        Atualizar
+                      </button>
+                      <button
+                        class="btn btn-danger btn-sm action"
+                        @click="deleteGame(game)"
+                      >
+                        Deletar
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <footer class="bg-primary text-white text-center footer-text">
             Copyright &copy;. All rights reserved 2022.
           </footer>
@@ -127,7 +131,11 @@ tr {
   text-align: center;
 }
 
-@media (min-width: 380px) and (max-width: 480px) {
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* @media (min-width: 380px) and (max-width: 480px) {
   html,
   body {
     font-size: 90%;
@@ -153,5 +161,5 @@ tr {
   button {
     font-size: xx-small;
   }
-}
+} */
 </style>
